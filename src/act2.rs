@@ -1,4 +1,8 @@
+extern crate num;
 use queue::Queue;
+use std::cmp;
+
+
 
 fn dfs(i: i32, sum: i32, n:i32, a: &Vec<i32>, k: i32) -> bool {
 	if i == n {
@@ -108,6 +112,19 @@ fn act2_1_3(n: i32, m: i32, maze: &mut Vec<Vec<String>>) -> i32 {
 	return act2_1_3_bfs(sx, sy, gx, gy, maze, d)
 }
 
+fn act2_2_1(yen_cnt_list: &Vec<i32>, target: i32) -> i32 {
+	let yen_int = [1, 5, 10, 50, 100, 500];
+	let mut ans = 0;
+	let mut a = target;
+	for i in num::range_step(5i32, 0i32, -1) {
+		println!("{}", i);
+		let t = cmp::min(a / yen_int[i as usize], yen_cnt_list[i as usize]);
+		a -= t * yen_int[i as usize];
+		ans += t;
+	}
+	return ans
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -161,5 +178,9 @@ mod tests {
 			sInput.push(temp)
 		}
 		assert_eq!(act2_1_3(10, 10, &mut sInput), 22);
+	}
+	#[test]
+	fn act2_2_1_test(){
+		assert_eq!(6, act2_2_1(&vec![3,2,1,3,0,2], 620));
 	}
 }
