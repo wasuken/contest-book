@@ -125,6 +125,26 @@ fn act2_2_1(yen_cnt_list: &Vec<i32>, target: i32) -> i32 {
 	return ans
 }
 
+fn act2_2_2(n: usize, s: &Vec<usize>, t: &Vec<usize>) -> usize {
+	let mut itv: Vec<(usize, usize)> = Vec::new();
+	for i in 0..n {
+		itv.push((t[i], s[i]));
+	}
+	itv.sort();
+	let mut ans = 0;
+	let mut t = 0;
+	for i in 0..n {
+		if t < itv[i].1 {
+			ans+=1;
+			t = itv[i].0;
+		}
+	}
+
+	return ans
+}
+
+fn act2_2_3()
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -182,5 +202,9 @@ mod tests {
 	#[test]
 	fn act2_2_1_test(){
 		assert_eq!(6, act2_2_1(&vec![3,2,1,3,0,2], 620));
+	}
+	#[test]
+	fn act2_2_2_test(){
+		assert_eq!(3, act2_2_2(5, &vec![1,2,4,6,8], &vec!(3,5,7,9,10)));
 	}
 }
