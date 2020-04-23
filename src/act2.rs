@@ -2,8 +2,6 @@ extern crate num;
 use queue::Queue;
 use std::cmp;
 
-
-
 fn dfs(i: i32, sum: i32, n:i32, a: &Vec<i32>, k: i32) -> bool {
 	if i == n {
 		return sum == k
@@ -143,7 +141,36 @@ fn act2_2_2(n: usize, s: &Vec<usize>, t: &Vec<usize>) -> usize {
 	return ans
 }
 
-fn act2_2_3()
+fn act2_2_3(n: usize, s: &str) -> String {
+	let mut a = 0;
+	let mut b = n - 1;
+	let s_chrs: Vec<char> = s.chars().collect();
+	let mut result: String = "".to_string();
+	while a <= b {
+		let mut left = false;
+		let mut i = 0;
+		while (a + i) <= b {
+			let a_i = s_chrs[a + i];
+			let b_i = s_chrs[b - i];
+			if a_i < b_i {
+				left = true;
+				break;
+			}else if a_i > b_i {
+				left = false;
+				break;
+			}
+			i += 1;
+		}
+		if left {
+			result = format!("{}{}", result, s_chrs[a]);
+			a+=1;
+		}else{
+			result = format!("{}{}", result, s_chrs[b]);
+			b-=1;
+		}
+	}
+	return result
+}
 
 #[cfg(test)]
 mod tests {
@@ -206,5 +233,9 @@ mod tests {
 	#[test]
 	fn act2_2_2_test(){
 		assert_eq!(3, act2_2_2(5, &vec![1,2,4,6,8], &vec!(3,5,7,9,10)));
+	}
+	#[test]
+	fn act2_2_3_test(){
+		assert_eq!("ABCBCD", act2_2_3(6, "ACDBCB"));
 	}
 }
