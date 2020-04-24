@@ -1,6 +1,7 @@
 extern crate num;
 use queue::Queue;
 use std::cmp;
+use std::mem;
 
 fn dfs(i: i32, sum: i32, n:i32, a: &Vec<i32>, k: i32) -> bool {
 	if i == n {
@@ -172,6 +173,59 @@ fn act2_2_3(n: usize, s: &str) -> String {
 	return result
 }
 
+fn act2_2_4(n: usize, r: usize, x: &Vec<usize>) -> usize {
+	let mut x_ = x.clone();
+	x_.sort();
+
+	let mut i = 0;
+	let mut ans = 0;
+
+	while i < n {
+		let s = x[i];
+		i += 1;
+		while i < n && x_[i] <= s + r {
+			i += 1;
+		}
+		let p = x_[i - 1];
+		while i < n && x_[i] <= p + r {
+			i += 1;
+		}
+		ans += 1;
+	}
+	return ans
+}
+
+fn act2_2_5(n: usize, l: &Vec<usize>) -> usize {
+	let mut ans: usize = 0;
+	let mut n_ = n;
+	let mut l_ = l.clone();
+	while n_ > 1 {
+		let mut mii1: usize = 0;
+		let mut mii2: usize = 1;
+		if l_[mii1] > l_[mii2] {
+			mem::swap(&mut mii1, &mut mii2);
+		}
+		for i in 2..n_ {
+			if l_[i] < l_[mii1] {
+				mii2 = mii1;
+				mii1 = i;
+			}else if l_[i] < l_[mii2] {
+				mii2 = i;
+			}
+		}
+		let t: usize = l_[mii1] + l_[mii2];
+		ans += t;
+
+		if mii1 == n - 1 {
+			mem::swap(&mut mii1, &mut mii2);
+		}
+		l_[mii1] = t;
+		l_[mii2] = l_[n_ - 1];
+		n_-=1;
+	}
+	return ans
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -237,5 +291,13 @@ mod tests {
 	#[test]
 	fn act2_2_3_test(){
 		assert_eq!("ABCBCD", act2_2_3(6, "ACDBCB"));
+	}
+	#[test]
+	fn act2_2_4_test(){
+		assert_eq!(3, act2_2_4(6, 10, &vec![1, 7, 15, 20, 30, 50]));
+	}
+	#[test]
+	fn act2_2_5_test(){
+		assert_eq!(34, act2_2_5(3, &vec![8, 5, 8]));
 	}
 }
