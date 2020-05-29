@@ -255,6 +255,31 @@ fn act2_3_1(n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, w: usize) -> usi
 	return rec(0, w, n, w_list, v_list, dp)
 }
 
+fn act2_3_2(n: usize, m: usize, s: &str, t: &str) -> usize {
+	let max_n = 1000;
+	let max_m = 1000;
+	let mut dp: &mut Vec<Vec<usize>> = &mut Vec::new();
+	for _ in 0..max_n {
+		let mut line = Vec::new();
+		for _ in 0..max_m{
+			line.push(0)
+		}
+		dp.push(line);
+	}
+	let s_chrs:Vec<char> = s.chars().collect();
+	let t_chrs:Vec<char> = t.chars().collect();
+	for i in 0..n{
+		for j in 0..m{
+			if s_chrs[i] == t_chrs[j] {
+				dp[i+1][j+1] = dp[i][j] + 1;
+			}else{
+				dp[i+1][j+1] = cmp::max(dp[i][j + 1], dp[i+1][j]);
+			}
+		}
+	}
+	return dp[n][m]
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -332,5 +357,9 @@ mod tests {
 	#[test]
 	fn act2_3_1_test(){
 		assert_eq!(7, act2_3_1(4, &vec![2,1,3,2], &vec![3,2,4,2], 5));
+	}
+	#[test]
+	fn act2_3_2_test(){
+		assert_eq!(3, act2_3_2(4, 4, "abcd", "becd"));
 	}
 }
