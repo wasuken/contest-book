@@ -280,6 +280,19 @@ fn act2_3_2(n: usize, m: usize, s: &str, t: &str) -> usize {
 	return dp[n][m]
 }
 
+fn act2_3_3(n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, w: usize) -> usize{
+	let mut dp: &mut Vec<usize> = &mut Vec::new();
+	for x in 0..100 {
+		dp.push(0);
+	}
+	for i in 0..n {
+		for j in w_list[i]..w+1 {
+			dp[j] = cmp::max(dp[j], dp[j - w_list[i]] + v_list[i]);
+		}
+	}
+	return dp[w]
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -361,5 +374,9 @@ mod tests {
 	#[test]
 	fn act2_3_2_test(){
 		assert_eq!(3, act2_3_2(4, 4, "abcd", "becd"));
+	}
+	#[test]
+	fn act2_3_3_test(){
+		assert_eq!(10, act2_3_3(3, &vec![3,4,2], &vec![4,5,3], 7));
 	}
 }
