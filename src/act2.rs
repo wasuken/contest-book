@@ -293,6 +293,41 @@ fn act2_3_3(n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, w: usize) -> usi
 	return dp[w]
 }
 
+fn act2_3_4(n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, w: usize) -> usize {
+	let max_n = 100;
+	let max_m = 100;
+	let mut dp: &mut Vec<Vec<usize>> = &mut Vec::new();
+	for _ in 0..max_n {
+		let mut line: Vec<usize> = Vec::new();
+		for _ in 0..(max_m * max_n){
+			line.push(usize::max_value())
+		}
+		dp.push(line);
+	}
+	dp[0][0] = 0;
+	for i in 0..n {
+		for j in 0..(max_n * max_m) {
+			if j < v_list[i] {
+				dp[i + 1][j] = dp[i][j];
+			}else{
+				let right = if dp[i][j - v_list[i]] == usize::max_value() {
+					dp[i][j - v_list[i]]
+				}else{
+					dp[i][j - v_list[i]] + w_list[i]
+				};
+				dp[i + 1][j] = cmp::min(dp[i][j], right);
+			}
+		}
+	}
+	let mut res = 0;
+	for i in 0..(max_n * max_m) {
+		if dp[n][i] <= w{
+			res = i;
+		}
+	}
+	return res
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -378,5 +413,9 @@ mod tests {
 	#[test]
 	fn act2_3_3_test(){
 		assert_eq!(10, act2_3_3(3, &vec![3,4,2], &vec![4,5,3], 7));
+	}
+	#[test]
+	fn act2_3_4_test(){
+		assert_eq!(7, act2_3_4(4, &vec![2,1,3,2], &vec![3,2,4,2], 5));
 	}
 }
