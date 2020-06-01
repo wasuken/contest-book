@@ -328,6 +328,37 @@ fn act2_3_4(n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, w: usize) -> usi
 	return res
 }
 
+fn act2_3_5(n: usize, a: &Vec<usize>, m: &Vec<usize>, k: usize) -> String {
+	let max_n = 1000;
+	let max_m = 1000;
+	let mut dp: &mut Vec<i32> = &mut Vec::new();
+	for _ in 0..max_n {
+		dp.push(-1);
+	}
+	dp[0] = 0;
+	for i in 0..n {
+		for j in 0..k+1 {
+			if dp[j] >= 0 {
+				dp[j] = m[i] as i32;
+			}else if j < a[i] || dp[j - a[i]] <= 0 {
+				dp[j] = -1;
+			}else{
+				dp[j] = dp[j - a[i]] - 1;
+			}
+		}
+	}
+	for i in 0..max_n {
+		if dp[i] >= 0 {
+			println!("i:{}, value:{}", i, dp[i]);
+		}
+	}
+	if dp[k] >= 0 {
+		return "Yes".to_string()
+	}else {
+		return "No".to_string()
+	}
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -417,5 +448,9 @@ mod tests {
 	#[test]
 	fn act2_3_4_test(){
 		assert_eq!(7, act2_3_4(4, &vec![2,1,3,2], &vec![3,2,4,2], 5));
+	}
+	#[test]
+	fn act2_3_5_test(){
+		assert_eq!("Yes", act2_3_5(3, &vec![3,5,8], &vec![3,2,2], 17));
 	}
 }
