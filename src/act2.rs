@@ -359,6 +359,24 @@ fn act2_3_5(n: usize, a: &Vec<usize>, m: &Vec<usize>, k: usize) -> String {
 	}
 }
 
+fn act2_3_6(n: usize, a:&Vec<usize>) -> usize {
+	let mut res = 0;
+	let mut dp: &mut Vec<usize> = &mut Vec::new();
+	let max_n = 1000;
+	for _ in 0..max_n {
+		dp.push(1);
+	}
+	for i in 0..n {
+		for j in 0..i {
+			if a[i] < a[j] {
+				dp[i] = cmp::max(dp[i], dp[j] + 1);
+			}
+		}
+		res = cmp::max(res, dp[i]);
+	}
+	return res
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -452,5 +470,9 @@ mod tests {
 	#[test]
 	fn act2_3_5_test(){
 		assert_eq!("Yes", act2_3_5(3, &vec![3,5,8], &vec![3,2,2], 17));
+	}
+	#[test]
+	fn act2_3_6_test(){
+		assert_eq!(3, act2_3_6(5, &vec![4,2,3,1,5]));
 	}
 }
