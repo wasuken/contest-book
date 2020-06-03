@@ -237,7 +237,7 @@ fn rec(i: usize, j: usize, n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, d
 		res = Some(rec(i + 1, j, n, w_list, v_list, dp))
 	}else{
 		res = Some(cmp::max(rec(i + 1, j, n, w_list, v_list, dp),
-					   rec(i + 1, j - w_list[i], n, w_list, v_list, dp) + v_list[i]))
+							rec(i + 1, j - w_list[i], n, w_list, v_list, dp) + v_list[i]))
 	}
 	dp[i][j] = res;
 	println!("calc => {}", dp[i][j].unwrap());
@@ -377,6 +377,31 @@ fn act2_3_6(n: usize, a:&Vec<usize>) -> usize {
 	return res
 }
 
+fn act2_3_7(n: usize, m:usize, bigM:usize) -> usize {
+	let max_n = 100;
+	let max_m = 100;
+	let mut dp: &mut Vec<Vec<usize>> = &mut Vec::new();
+	for _ in 0..max_n {
+		let mut line: Vec<usize> = Vec::new();
+		for _ in 0..(max_m * max_n){
+			line.push(0)
+		}
+		dp.push(line);
+	}
+	dp[0][0] = 1;
+
+	for i in 1..m+1 {
+		for j in 0..n+1 {
+			if (j as i32 - i as i32) >= 0 {
+				dp[i][j] = (dp[i - 1][j] + dp[i][j - i]) % bigM;
+			}else{
+				dp[i][j] = dp[i - 1][j];
+			}
+		}
+	}
+	return dp[m][n]
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -474,5 +499,9 @@ mod tests {
 	#[test]
 	fn act2_3_6_test(){
 		assert_eq!(3, act2_3_6(5, &vec![4,2,3,1,5]));
+	}
+	#[test]
+	fn act2_3_7_test(){
+		assert_eq!(4, act2_3_7(4, 3, 1000));
 	}
 }
