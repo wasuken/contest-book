@@ -402,6 +402,34 @@ fn act2_3_7(n: usize, m:usize, bigM:usize) -> usize {
 	return dp[m][n]
 }
 
+fn act2_3_8(n: usize, m: usize, a: &Vec<usize>, bigM: usize) -> usize {
+	let max_n = 100;
+	let max_m = 100;
+	let mut dp: &mut Vec<Vec<usize>> = &mut Vec::new();
+	for i in 0..max_n {
+		let mut line: Vec<usize> = Vec::new();
+		for j in 0..(max_m * max_n){
+			if j == 0 {
+				line.push(1)
+			}else{
+				line.push(0)
+			}
+		}
+		dp.push(line);
+	}
+	for i in 0..n{
+		for j in 1..m+1{
+			let x = ((j as i32) - (1 as i32) - (a[i] as i32)) as i32;
+			if x >= 0 {
+				dp[i + 1][j] = (dp[i + 1][j - 1] + dp[i][j] - dp[i][j - 1 - a[i]] + bigM) % bigM;
+			}else{
+				dp[i + 1][j] = (dp[i + 1][j - 1] + dp[i][j]) % bigM;
+			}
+		}
+	}
+	return dp[n][m]
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -503,5 +531,9 @@ mod tests {
 	#[test]
 	fn act2_3_7_test(){
 		assert_eq!(4, act2_3_7(4, 3, 1000));
+	}
+	#[test]
+	fn act2_3_8_test(){
+		assert_eq!(6, act2_3_8(3, 3, &vec![1,2,3], 10000));
 	}
 }
