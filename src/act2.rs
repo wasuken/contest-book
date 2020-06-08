@@ -2,6 +2,7 @@ extern crate num;
 use queue::Queue;
 use std::cmp;
 use std::mem;
+use std::collections::VecDeque;
 
 fn dfs(i: i32, sum: i32, n:i32, a: &Vec<i32>, k: i32) -> bool {
 	if i == n {
@@ -430,6 +431,39 @@ fn act2_3_8(n: usize, m: usize, a: &Vec<usize>, bigM: usize) -> usize {
 	return dp[n][m]
 }
 
+fn act2_4_1(n: usize, l: usize, p:usize, a: &Vec<usize>, b: &Vec<usize>) -> Option<usize> {
+	let mut aCp = a.clone();
+	let mut bCp = b.clone();
+	aCp.push(l);
+	aCp.push(0);
+	let mut n2 = n;
+
+	let mut que = VecDeque::new();
+	let mut ans = 0;
+	let mut pos = 0;
+	let mut tank = p;
+
+	for i in 0..n2{
+		let mut d = aCp[i] - pos;
+		let mut tankd: i32 = (tank as i32) - (d as i32);
+		println!("d:{},tankd:{},que:{:?}", d, tankd, que);
+		while tankd < 0 {
+			println!("que:{:?}", que);
+			if que.is_empty() {
+				println!("-1");
+				return None
+			}
+			tank += que.pop_back().unwrap();
+			ans+=1;
+			tankd = (tank as i32) - (d as i32);
+		}
+		tank -= d;
+		pos = aCp[i];
+		que.push_back(bCp[i]);
+	}
+	return Some(ans)
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -535,5 +569,9 @@ mod tests {
 	#[test]
 	fn act2_3_8_test(){
 		assert_eq!(6, act2_3_8(3, 3, &vec![1,2,3], 10000));
+	}
+	#[test]
+	fn act2_4_1_test(){
+		assert_eq!(Some(2), act2_4_1(4, 25, 10, &vec![10, 14, 20, 21], &vec![10, 5, 2, 4]));
 	}
 }
