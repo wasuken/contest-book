@@ -446,9 +446,7 @@ fn act2_4_1(n: usize, l: usize, p:usize, a: &Vec<usize>, b: &Vec<usize>) -> Opti
 	for i in 0..n2{
 		let mut d = aCp[i] - pos;
 		let mut tankd: i32 = (tank as i32) - (d as i32);
-		println!("d:{},tankd:{},que:{:?}", d, tankd, que);
 		while tankd < 0 {
-			println!("que:{:?}", que);
 			if que.is_empty() {
 				println!("-1");
 				return None
@@ -462,6 +460,35 @@ fn act2_4_1(n: usize, l: usize, p:usize, a: &Vec<usize>, b: &Vec<usize>) -> Opti
 		que.push_back(bCp[i]);
 	}
 	return Some(ans)
+}
+
+fn vecDequeSort(vd: &VecDeque<usize>) -> VecDeque<usize> {
+	let mut que: VecDeque<usize> = VecDeque::new();
+	let mut v = Vec::new();
+	for (_, &item) in vd.as_slices().0.iter().enumerate() {
+		v.push(item);
+	}
+	v.sort();
+	for x in v {
+		que.push_back(x);
+	}
+	return que
+}
+
+fn act2_4_2(n: usize, l: &Vec<usize>) -> i64 {
+	let mut ans: i64 = 0;
+	let mut que: VecDeque<usize> = VecDeque::new();
+	for i in 0..n {
+		que.push_back(l[i])
+	}
+	while que.len() > 1 {
+		let mut l1 = que.pop_back().unwrap();
+		let mut l2 = que.pop_back().unwrap();
+		ans += (l1 + l2) as i64;
+		que.push_back(l1 + l2);
+		que = vecDequeSort(&que);
+	}
+	return ans
 }
 
 #[cfg(test)]
@@ -573,5 +600,9 @@ mod tests {
 	#[test]
 	fn act2_4_1_test(){
 		assert_eq!(Some(2), act2_4_1(4, 25, 10, &vec![10, 14, 20, 21], &vec![10, 5, 2, 4]));
+	}
+	#[test]
+	fn act2_4_2_test(){
+		assert_eq!(34, act2_4_2(3, &vec![8, 5, 8]));
 	}
 }
