@@ -1,8 +1,5 @@
 extern crate num;
 use queue::Queue;
-use std::cmp;
-use std::mem;
-use std::collections::VecDeque;
 
 fn dfs(i: i32, sum: i32, n:i32, a: &Vec<i32>, k: i32) -> bool {
 	if i == n {

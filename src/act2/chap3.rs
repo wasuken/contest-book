@@ -1,8 +1,5 @@
 extern crate num;
-use queue::Queue;
 use std::cmp;
-use std::mem;
-use std::collections::VecDeque;
 
 fn rec(i: usize, j: usize, n: usize, w_list: &Vec<usize>, v_list: &Vec<usize>, dp: &mut Vec<Vec<Option<usize>>>) -> usize {
 	if dp[i][j] != None {

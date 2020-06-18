@@ -1,8 +1,6 @@
 extern crate num;
-use queue::Queue;
 use std::cmp;
 use std::mem;
-use std::collections::VecDeque;
 
 fn act2_2_1(yen_cnt_list: &Vec<i32>, target: i32) -> i32 {
 	let yen_int = [1, 5, 10, 50, 100, 500];

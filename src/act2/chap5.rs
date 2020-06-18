@@ -1,8 +1,4 @@
 extern crate num;
-use queue::Queue;
-use std::cmp;
-use std::mem;
-use std::collections::VecDeque;
 
 fn act2_5_1_dfs(v: usize, c: i32, color: &mut Vec<i32>, graph_list: &Vec<Vec<usize>>) -> bool {
 	color[v] = c;

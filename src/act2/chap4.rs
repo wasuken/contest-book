@@ -1,7 +1,4 @@
 extern crate num;
-use queue::Queue;
-use std::cmp;
-use std::mem;
 use std::collections::VecDeque;
 
 fn act2_4_1(n: usize, l: usize, p:usize, a: &Vec<usize>, b: &Vec<usize>) -> Option<usize> {
