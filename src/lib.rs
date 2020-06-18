@@ -1,3 +1,3 @@
-pub mod act1;
-pub mod act2;
-pub mod act3;
+mod act1;
+mod act2;
+mod act3;
