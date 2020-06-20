@@ -207,6 +207,31 @@ fn act2_5_3(n: usize, m: usize, r: usize, xyd: &Vec<Vec<usize>>) -> i32 {
 	return result
 }
 
+// 実装できないです。まけました。
+fn act2_5_4(m: usize, ml: usize, md: usize, abd_l: &Vec<Vec<usize>>,
+			abd_d: &Vec<Vec<usize>>) -> usize{
+	let mut al = Vec::new();
+	let mut bl = Vec::new();
+	let mut dl = Vec::new();
+
+	let mut ad = Vec::new();
+	let mut bd = Vec::new();
+	let mut dd = Vec::new();
+
+	for x in abd_l {
+		al.push(x[0]);
+		bl.push(x[1]);
+		dl.push(x[2]);
+	}
+	for x in abd_d {
+		ad.push(x[0]);
+		bd.push(x[1]);
+		dd.push(x[2]);
+	}
+	let mut res = 0;
+	return res
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -239,5 +264,10 @@ mod tests {
 											   vec![1,3,2049],
 											   vec![4,2,2104],
 											   vec![2,2,781]]));
+	}
+	fn act2_5_4_test(){
+		assert_eq!(27, act2_5_4(4, 2, 1, &vec![vec![1,3,10],
+											   vec![2,4,20]],
+								&vec![vec![2,3,3]]));
 	}
 }
